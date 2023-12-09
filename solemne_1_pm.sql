@@ -15,7 +15,7 @@ CREATE TABLE
         direccion varchar(100) not null,
         telefono varchar(30) not null,
         correo varchar(50) not null,
-        sexo ENUM ('M', 'F'),
+        sexo ENUM ('M', 'F')
     );
 
 -- # tabla previsión
