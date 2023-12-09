@@ -15,7 +15,7 @@ CREATE TABLE
         direccion varchar(100) not null,
         telefono varchar(30) not null,
         correo varchar(50) not null,
-        sexo ENUM ('M', 'F'),
+        sexo ENUM ('M', 'F')
     );
 
 -- # tabla previsión
@@ -26,7 +26,7 @@ CREATE TABLE
         id_cliente int,
         index (id_cliente),
         FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente) on update cascade on delete cascade
-    ) ENGINE = INNODB
+    ) ENGINE = INNODB;
     -- #tabla cuenta
 CREATE TABLE
     cuenta (
@@ -117,7 +117,7 @@ CREATE TABLE
         FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente) on update cascade on delete cascade
     ) ENGINE = INNODB;
 
--- •	Insertar 5 registros en cada tabla.
+-- Insertar 5 registros en cada tabla.
 INSERT INTO
     cliente (
         rut,
@@ -241,11 +241,11 @@ VALUES
 INSERT INTO
     comuna (nombre_comuna, id_region, id_sucursal)
 VALUES
-    ('Las Condes', 1, 6),
-    ('Vitacura', 1, 7),
-    ('Recoleta', 1, 8),
-    ('La Florida', 1, 9),
-    ('Providencia', 1, 10);
+    ('Las Condes', 1, 1),
+    ('Vitacura', 1, 2),
+    ('Recoleta', 1, 3),
+    ('La Florida', 1, 4),
+    ('Providencia', 1, 5);
 
 INSERT INTO
     cuenta (numero_cuenta, id_cl)
@@ -312,11 +312,11 @@ INSERT INTO
         id_cliente
     )
 VALUES
-    ('Oftalmologia', 7, 1, 5),
-    ('Medicina General', 6, 2, 4),
-    ('Ginecologia', 10, 3, 3),
-    ('Urologia', 9, 4, 2),
-    ('Psicologia', 8, 5, 1);
+    ('Oftalmologia', 2, 1, 5),
+    ('Medicina General', 1, 2, 4),
+    ('Ginecologia', 5, 3, 3),
+    ('Urologia', 4, 4, 2),
+    ('Psicologia', 3, 5, 1);
 
 INSERT INTO
     prevision (nombre_prevision, id_cliente)
@@ -326,4 +326,25 @@ VALUES
     ('Colmena', 3),
     ('Banmedica', 4),
     ('Consalud', 5);
+
+-- Después de haber creado la tabla Médico, agregar el campo sexo donde acepte valores F o M.
+ALTER TABLE medico
+ADD COLUMN sexo ENUM ('M', 'F');
+
+-- Después de crear el campo Dirección en la tabla cliente, modificar la longitud del campo Dirección con varchar(180), 
+-- independiente de la longitud que le han asignado
+
+ALTER TABLE cliente
+MODIFY COLUMN direccion varchar(180);
+
+-- En la tabla país, cambiar el nombre del campo a nombre_país.
+
+ALTER TABLE pais
+CHANGE nombre nombre_pais varchar(30);
+
+-- En la tabla Sucursal, después de insertar los registros para el id_sucursal=4, cambie nombre_sucursal por ‘Clinica Alemena’,
+
+update sucursal
+SET nombre_sucursal = 'Clinica Alemena'
+WHERE id_sucursal = 4;
 
