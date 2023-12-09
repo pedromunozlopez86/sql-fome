@@ -15,7 +15,7 @@ CREATE TABLE
         direccion varchar(100) not null,
         telefono varchar(30) not null,
         correo varchar(50) not null,
-        sexo ENUM ('M', 'F')
+        sexo ENUM ('M', 'F'),
     );
 
 -- # tabla previsión
@@ -27,7 +27,8 @@ CREATE TABLE
         index (id_cliente),
         FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente) on update cascade on delete cascade
     ) ENGINE = INNODB;
-    -- #tabla cuenta
+
+-- #tabla cuenta
 CREATE TABLE
     cuenta (
         id_cuenta int auto_increment not null PRIMARY KEY,
@@ -48,6 +49,7 @@ CREATE TABLE
         index (id_cuenta),
         FOREIGN KEY (id_cuenta) REFERENCES cuenta (id_cuenta) on update cascade on delete cascade
     ) ENGINE = INNODB;
+
 
 -- #tabla medico
 CREATE TABLE
@@ -117,6 +119,28 @@ CREATE TABLE
         FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente) on update cascade on delete cascade
     ) ENGINE = INNODB;
 
+
+-- agregando FK's para relaciones faltantes
+ALTER TABLE cliente
+ADD COLUMN id_prevision INT,
+ADD FOREIGN KEY (id_prevision) REFERENCES prevision(id_prevision);
+
+ALTER TABLE cliente
+ADD COLUMN id_sucursal INT,
+ADD FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal);
+
+ALTER TABLE medico
+ADD COLUMN id_sucursal INT,
+ADD FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal);
+
+ALTER TABLE medico
+ADD COLUMN id_especialidad INT,
+ADD FOREIGN KEY (id_especialidad) REFERENCES especialidad(id_especialidad);
+
+ALTER TABLE sucursal
+ADD COLUMN id_comuna int,
+ADD FOREIGN KEY (id_comuna) REFERENCES comuna (id_comuna);
+
 -- Insertar 5 registros en cada tabla.
 INSERT INTO
     cliente (
@@ -126,7 +150,9 @@ INSERT INTO
         direccion,
         telefono,
         correo,
-        sexo
+        sexo,
+        id_prevision,
+        id_sucursal
     )
 VALUES
     (
@@ -136,7 +162,9 @@ VALUES
         'Vicuña Mackenna 6839',
         '56977708923',
         'marylo41@hotmail.com',
-        'F'
+        'F',
+        1,
+        5
     ),
     (
         '185436843',
@@ -145,7 +173,9 @@ VALUES
         'Martin de Zamora 5509',
         '56999989345',
         'pmunoz@gmail.com',
-        'M'
+        'M',
+        2,
+        4
     ),
     (
         '224325469',
@@ -154,7 +184,7 @@ VALUES
         'Alameda 323',
         '56945608923',
         'jperez@gmail.com',
-        'M'
+        'M',3,3
     ),
     (
         '303214567',
@@ -163,7 +193,7 @@ VALUES
         '10 de Julio 556',
         '56986456789',
         'jmecanic@yahoo.com',
-        'M'
+        'M',4,2
     ),
     (
         '85735551',
@@ -172,7 +202,8 @@ VALUES
         'Amapolas 5589',
         '5694456543',
         'lsanchez@gmail.com',
-        'F'
+        'F',
+        5,1
     );
 
 INSERT INTO
@@ -199,7 +230,8 @@ INSERT INTO
         direccion,
         telefono,
         rut,
-        id_cliente
+        id_cliente,
+        id_comuna
     )
 VALUES
     (
@@ -207,6 +239,7 @@ VALUES
         'Avda. Las condes 755',
         '+56223344556',
         '76123321k',
+        1,
         1
     ),
     (
@@ -214,6 +247,7 @@ VALUES
         'Avda. Manquehue 1005',
         '+56232334444',
         '78654123k',
+        2,
         2
     ),
     (
@@ -221,21 +255,21 @@ VALUES
         'Avda. Recoleta 554',
         '+56277665454',
         '76123321k',
-        3
+        3,3
     ),
     (
         'Clinica Bupa',
         'Avda. Americo Vespucio 10755',
         '+56298877676',
         '76123321k',
-        4
+        4,4
     ),
     (
         'Clinica Indisa',
         'Avda. Providencia 123',
         '+56255454566',
         '76123321k',
-        5
+        5,5
     );
 
 INSERT INTO
@@ -266,42 +300,47 @@ VALUES
     ('corriente', 30, 7500000, 5);
 
 INSERT INTO
-    medico (nombre_med, apellido, direccion, telefono, correo)
+    medico (nombre_med, apellido, direccion, telefono, correo,id_sucursal,id_especialidad)
 VALUES
     (
         'Manuel',
         'Rodriguez',
         'Consistorial 555',
         '56945454567',
-        'mrodriguez@gmail.com'
+        'mrodriguez@gmail.com',
+        1,5
     ),
     (
         'Ma. Luisa',
         'Cordero',
         'Alameda 3332',
         '56998674534',
-        'maluisacord@gmail.com'
+        'maluisacord@gmail.com',
+        2,4
     ),
     (
         'Josefa',
         'Perez',
         'Calle larga 333',
         '56932437687',
-        'jperez@gmail.com'
+        'jperez@gmail.com',
+        3,3
     ),
     (
         'Patricio',
         'Artaza',
         'Matta 123',
         '56943675489',
-        'partaza@gmail.com'
+        'partaza@gmail.com',
+        4,2
     ),
     (
         'Armando',
         'Casas',
         'Gran. Avenida 10555',
         '56976897654',
-        'acasas@gmail.com'
+        'acasas@gmail.com',
+        5,1
     );
 
 INSERT INTO
@@ -333,18 +372,37 @@ ADD COLUMN sexo ENUM ('M', 'F');
 
 -- Después de crear el campo Dirección en la tabla cliente, modificar la longitud del campo Dirección con varchar(180), 
 -- independiente de la longitud que le han asignado
-
-ALTER TABLE cliente
-MODIFY COLUMN direccion varchar(180);
+ALTER TABLE cliente MODIFY COLUMN direccion varchar(180);
 
 -- En la tabla país, cambiar el nombre del campo a nombre_país.
-
-ALTER TABLE pais
-CHANGE nombre nombre_pais varchar(30);
+ALTER TABLE pais CHANGE nombre nombre_pais varchar(30);
 
 -- En la tabla Sucursal, después de insertar los registros para el id_sucursal=4, cambie nombre_sucursal por ‘Clinica Alemena’,
-
 update sucursal
-SET nombre_sucursal = 'Clinica Alemena'
-WHERE id_sucursal = 4;
+SET
+    nombre_sucursal = 'Clinica Alemena'
+WHERE
+    id_sucursal = 4;
 
+ 
+
+
+
+
+CREATE VIEW
+    vista_uno AS
+SELECT
+    c.nombre as nombre_cliente,
+    c.apellido as apellido_cliente,
+    p.nombre_prevision as nombre_prevision,
+    s.nombre_sucursal as nombre_sucursal,
+    m.nombre_med as nombre_medico,
+    e.nombre_especialidad as nombre_especialidad,
+    co.nombre_comuna as nombre_comuna
+FROM
+    cliente c
+    JOIN prevision p on c.id_prevision = p.id_prevision
+    JOIN sucursal s on c.id_sucursal = s.id_sucursal
+    JOIN medico m on m.id_sucursal = s.id_sucursal
+    JOIN especialidad e on m.id_especialidad = e.id_especialidad
+    JOIN comuna co on s.id_comuna = co.id_comuna;
