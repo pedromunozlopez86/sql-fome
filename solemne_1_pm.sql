@@ -1,9 +1,9 @@
 -- Iniciar en consola Mysql
 mysql - u peter - p / / peter es mi usuario -- # Creacion DB
-create database pm_solemne_1;
+create database solemne1_pm;
 
 --  Seleccion DB
-use pm_solemne_1;
+use solemne1_pm;
 
 -- # crear tabla cliente
 CREATE TABLE cliente (
