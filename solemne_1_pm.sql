@@ -434,14 +434,34 @@ co.nombre_comuna as nombre_comuna,
 r.nombre_region as nombre_region
 FROM 
     cliente c
-    LEFT JOIN cuenta cu ON c.id_cliente = cu.id_cl
-    LEFT JOIN tipo_cuenta tc ON cu.id_cuenta = tc.id_cuenta
-    LEFT JOIN sucursal s ON c.id_sucursal =s.id_sucursal
-    LEFT JOIN comuna co ON s.id_comuna = co.id_comuna
-    LEFT JOIN region r ON co.id_region = r.id_region
+    JOIN cuenta cu ON c.id_cliente = cu.id_cl
+    JOIN tipo_cuenta tc ON cu.id_cuenta = tc.id_cuenta
+    JOIN sucursal s ON c.id_sucursal =s.id_sucursal
+    JOIN comuna co ON s.id_comuna = co.id_comuna
+    JOIN region r ON co.id_region = r.id_region
 
     WHERE tc.saldo BETWEEN 3000000 and 5890000
     ORDER BY tc.saldo DESC;
 
        -- ver vista 
     select * from vista_dos;
+
+
+-- Crear vista para la siguiente consulta: nombre país, nombre región, 
+-- nombre comuna, nombre sucursal, dirección sucursal. Use Left join
+CREATE VIEW vista_tres AS
+SELECT 
+p.nombre_pais as nombre_pais,
+r.nombre_region as nombre_region,
+co.nombre_comuna as nombre_comuna,
+s.nombre_sucursal as nombre_sucursal,
+s.direccion as direccion_sucursal
+
+FROM 
+    pais p
+    LEFT JOIN region r ON p.id_pais = r.id_pais
+    LEFT JOIN comuna co ON r.id_region = co.id_region
+    LEFT JOIN sucursal s ON co.id_comuna = s.id_comuna;
+
+           -- ver vista 
+    select * from vista_tres;
