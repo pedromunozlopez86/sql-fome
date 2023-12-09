@@ -118,10 +118,62 @@ CREATE TABLE
     ) ENGINE = INNODB;
 
 -- •	Insertar 5 registros en cada tabla.
-INSERT INTO cliente (rut,nombre,apellido,direccion,telefono,correo,sexo  ) VALUES 
-('104255329','Marisa','Lopez','Vicuña Mackenna 6839','56977708923','marylo41@hotmail.com')
-;
-
+INSERT INTO
+    cliente (
+        rut,
+        nombre,
+        apellido,
+        direccion,
+        telefono,
+        correo,
+        sexo
+    )
+VALUES
+    (
+        '104255329',
+        'Marisa',
+        'Lopez',
+        'Vicuña Mackenna 6839',
+        '56977708923',
+        'marylo41@hotmail.com',
+        'F'
+    ),
+    (
+        '185436843',
+        'Pedro',
+        'Muñoz',
+        'Martin de Zamora 5509',
+        '56999989345',
+        'pmunoz@gmail.com',
+        'M'
+    ),
+    (
+        '224325469',
+        'Jose',
+        'Perez',
+        'Alameda 323',
+        '56945608923',
+        'jperez@gmail.com',
+        'M'
+    ),
+    (
+        '303214567',
+        'Juan',
+        'Mecanico',
+        '10 de Julio 556',
+        '56986456789',
+        'jmecanic@yahoo.com',
+        'M'
+    ),
+    (
+        '85735551',
+        'Lucia',
+        'Sanchez',
+        'Amapolas 5589',
+        '5694456543',
+        'lsanchez@gmail.com',
+        'F'
+    );
 
 INSERT INTO
     pais (nombre)
@@ -189,8 +241,88 @@ VALUES
 INSERT INTO
     comuna (nombre_comuna, id_region, id_sucursal)
 VALUES
-    ('Las Condes', 1, 1),
-    ('Vitacura', 1, 2),
-    ('Recoleta', 1, 3),
-    ('La Florida', 1, 4),
-    ('Providencia', 1, 5);
+    ('Las Condes', 1, 6),
+    ('Vitacura', 1, 7),
+    ('Recoleta', 1, 8),
+    ('La Florida', 1, 9),
+    ('Providencia', 1, 10);
+
+INSERT INTO
+    cuenta (numero_cuenta, id_cl)
+VALUES
+    (45567, 1),
+    (12345, 2),
+    (22875, 3),
+    (44556, 4),
+    (89765, 5);
+
+INSERT INTO
+    tipo_cuenta (tipo, interes, saldo, id_cuenta)
+VALUES
+    ('corriente', 30, 4000000, 1),
+    ('vista', 30, 6000000, 2),
+    ('rut', 30, 2000000, 3),
+    ('corriente', 30, 3500000, 4),
+    ('corriente', 30, 7500000, 5);
+
+INSERT INTO
+    medico (nombre_med, apellido, direccion, telefono, correo)
+VALUES
+    (
+        'Manuel',
+        'Rodriguez',
+        'Consistorial 555',
+        '56945454567',
+        'mrodriguez@gmail.com'
+    ),
+    (
+        'Ma. Luisa',
+        'Cordero',
+        'Alameda 3332',
+        '56998674534',
+        'maluisacord@gmail.com'
+    ),
+    (
+        'Josefa',
+        'Perez',
+        'Calle larga 333',
+        '56932437687',
+        'jperez@gmail.com'
+    ),
+    (
+        'Patricio',
+        'Artaza',
+        'Matta 123',
+        '56943675489',
+        'partaza@gmail.com'
+    ),
+    (
+        'Armando',
+        'Casas',
+        'Gran. Avenida 10555',
+        '56976897654',
+        'acasas@gmail.com'
+    );
+
+INSERT INTO
+    especialidad (
+        nombre_especialidad,
+        id_sucursal,
+        id_med,
+        id_cliente
+    )
+VALUES
+    ('Oftalmologia', 7, 1, 5),
+    ('Medicina General', 6, 2, 4),
+    ('Ginecologia', 10, 3, 3),
+    ('Urologia', 9, 4, 2),
+    ('Psicologia', 8, 5, 1);
+
+INSERT INTO
+    prevision (nombre_prevision, id_cliente)
+VALUES
+    ('Fonasa', 1),
+    ('Cruz Blanca', 2),
+    ('Colmena', 3),
+    ('Banmedica', 4),
+    ('Consalud', 5);
