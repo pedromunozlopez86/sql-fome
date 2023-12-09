@@ -24,7 +24,6 @@ CREATE TABLE
         id_prevision int auto_increment not null PRIMARY KEY,
         nombre_prevision varchar(50) not null,
         id_cliente int,
-        index (id_cliente),
         FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente) on update cascade on delete cascade
     ) ENGINE = INNODB;
 
@@ -34,7 +33,6 @@ CREATE TABLE
         id_cuenta int auto_increment not null PRIMARY KEY,
         numero_cuenta int not null,
         id_cl int,
-        index (id_cl),
         FOREIGN KEY (id_cl) REFERENCES cliente (id_cliente) on update cascade on delete cascade
     ) ENGINE = INNODB;
 
@@ -46,10 +44,8 @@ CREATE TABLE
         interes int not null,
         saldo int not null,
         id_cuenta int,
-        index (id_cuenta),
         FOREIGN KEY (id_cuenta) REFERENCES cuenta (id_cuenta) on update cascade on delete cascade
     ) ENGINE = INNODB;
-
 
 -- #tabla medico
 CREATE TABLE
@@ -75,7 +71,6 @@ CREATE TABLE
         id_region int auto_increment not null PRIMARY KEY,
         nombre_region varchar(30) not null,
         id_pais int,
-        index (id_pais),
         FOREIGN KEY (id_pais) REFERENCES pais (id_pais) on update cascade on delete cascade
     ) ENGINE = INNODB;
 
@@ -88,7 +83,6 @@ CREATE TABLE
         telefono varchar(30) not null,
         rut varchar(10) not null,
         id_cliente int,
-        index (id_cliente),
         FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente) on update cascade on delete cascade
     ) ENGINE = INNODB;
 
@@ -98,10 +92,8 @@ CREATE TABLE
         id_comuna int auto_increment not null PRIMARY KEY,
         nombre_comuna varchar(30) not null,
         id_region int,
-        index (id_region),
         FOREIGN KEY (id_region) REFERENCES region (id_region) on update cascade on delete cascade,
         id_sucursal int,
-        index (id_sucursal),
         FOREIGN KEY (id_sucursal) REFERENCES sucursal (id_sucursal) on update cascade on delete cascade
     ) ENGINE = INNODB;
 
@@ -119,29 +111,118 @@ CREATE TABLE
         FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente) on update cascade on delete cascade
     ) ENGINE = INNODB;
 
-
 -- agregando FK's para relaciones faltantes
 ALTER TABLE cliente
 ADD COLUMN id_prevision INT,
-ADD FOREIGN KEY (id_prevision) REFERENCES prevision(id_prevision);
+ADD FOREIGN KEY (id_prevision) REFERENCES prevision (id_prevision);
 
 ALTER TABLE cliente
 ADD COLUMN id_sucursal INT,
-ADD FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal);
+ADD FOREIGN KEY (id_sucursal) REFERENCES sucursal (id_sucursal);
 
 ALTER TABLE medico
 ADD COLUMN id_sucursal INT,
-ADD FOREIGN KEY (id_sucursal) REFERENCES sucursal(id_sucursal);
+ADD FOREIGN KEY (id_sucursal) REFERENCES sucursal (id_sucursal);
 
 ALTER TABLE medico
 ADD COLUMN id_especialidad INT,
-ADD FOREIGN KEY (id_especialidad) REFERENCES especialidad(id_especialidad);
+ADD FOREIGN KEY (id_especialidad) REFERENCES especialidad (id_especialidad);
 
 ALTER TABLE sucursal
 ADD COLUMN id_comuna int,
 ADD FOREIGN KEY (id_comuna) REFERENCES comuna (id_comuna);
 
 -- Insertar 5 registros en cada tabla.
+INSERT INTO
+    pais (nombre)
+VALUES
+    ('Chile'),
+    ('Argentina'),
+    ('Brasil'),
+    ('Ecuador'),
+    ('Uruguay');
+
+INSERT INTO
+    region (nombre_region, id_pais)
+VALUES
+    ('Metropolitana', 1),
+    ('Bariloche', 2),
+    ('De los Ríos', 1),
+    ('Brasilia', 3),
+    ('Coquimbo', 1);
+
+INSERT INTO
+    comuna (nombre_comuna, id_region)
+VALUES
+    ('Las Condes', 1),
+    ('Vitacura', 1),
+    ('Recoleta', 1),
+    ('La Florida', 1),
+    ('Providencia', 1);
+
+INSERT INTO
+    prevision (nombre_prevision)
+VALUES
+    ('Fonasa'),
+    ('Cruz Blanca'),
+    ('Colmena'),
+    ('Banmedica'),
+    ('Consalud');
+
+INSERT INTO
+    especialidad (nombre_especialidad)
+VALUES
+    ('Oftalmologia'),
+    ('Medicina General'),
+    ('Ginecologia'),
+    ('Urologia'),
+    ('Psicologia');
+
+INSERT INTO
+    sucursal (
+        nombre_sucursal,
+        direccion,
+        telefono,
+        rut,
+        id_comuna
+    )
+VALUES
+    (
+        'Clinica Las Condes',
+        'Avda. Las condes 755',
+        '+56223344556',
+        '76123321k',
+        1
+    ),
+    (
+        'Clinica Alemana',
+        'Avda. Manquehue 1005',
+        '+56232334444',
+        '78654123k',
+        2
+    ),
+    (
+        'Clinica Davila',
+        'Avda. Recoleta 554',
+        '+56277665454',
+        '76123321k',
+        3
+    ),
+    (
+        'Clinica Bupa',
+        'Avda. Americo Vespucio 10755',
+        '+56298877676',
+        '76123321k',
+        4
+    ),
+    (
+        'Clinica Indisa',
+        'Avda. Providencia 123',
+        '+56255454566',
+        '76123321k',
+        5
+    );
+
 INSERT INTO
     cliente (
         rut,
@@ -184,7 +265,9 @@ VALUES
         'Alameda 323',
         '56945608923',
         'jperez@gmail.com',
-        'M',3,3
+        'M',
+        3,
+        3
     ),
     (
         '303214567',
@@ -193,7 +276,9 @@ VALUES
         '10 de Julio 556',
         '56986456789',
         'jmecanic@yahoo.com',
-        'M',4,2
+        'M',
+        4,
+        2
     ),
     (
         '85735551',
@@ -203,83 +288,68 @@ VALUES
         '5694456543',
         'lsanchez@gmail.com',
         'F',
-        5,1
+        5,
+        1
     );
 
 INSERT INTO
-    pais (nombre)
-VALUES
-    ('Chile'),
-    ('Argentina'),
-    ('Brasil'),
-    ('Ecuador'),
-    ('Uruguay');
-
-INSERT INTO
-    region (nombre_region, id_pais)
-VALUES
-    ('Metropolitana', 1),
-    ('Bariloche', 2),
-    ('De los Ríos', 1),
-    ('Brasilia', 3),
-    ('Coquimbo', 1);
-
-INSERT INTO
-    sucursal (
-        nombre_sucursal,
+    medico (
+        nombre_med,
+        apellido,
         direccion,
         telefono,
-        rut,
-        id_cliente,
-        id_comuna
+        correo,
+        id_sucursal,
+        id_especialidad
     )
 VALUES
     (
-        'Clinica Las Condes',
-        'Avda. Las condes 755',
-        '+56223344556',
-        '76123321k',
+        'Manuel',
+        'Rodriguez',
+        'Consistorial 555',
+        '56945454567',
+        'mrodriguez@gmail.com',
         1,
-        1
+        5
     ),
     (
-        'Clinica Alemana',
-        'Avda. Manquehue 1005',
-        '+56232334444',
-        '78654123k',
+        'Ma. Luisa',
+        'Cordero',
+        'Alameda 3332',
+        '56998674534',
+        'maluisacord@gmail.com',
         2,
+        4
+    ),
+    (
+        'Josefa',
+        'Perez',
+        'Calle larga 333',
+        '56932437687',
+        'jperez@gmail.com',
+        3,
+        3
+    ),
+    (
+        'Patricio',
+        'Artaza',
+        'Matta 123',
+        '56943675489',
+        'partaza@gmail.com',
+        4,
         2
     ),
     (
-        'Clinica Davila',
-        'Avda. Recoleta 554',
-        '+56277665454',
-        '76123321k',
-        3,3
-    ),
-    (
-        'Clinica Bupa',
-        'Avda. Americo Vespucio 10755',
-        '+56298877676',
-        '76123321k',
-        4,4
-    ),
-    (
-        'Clinica Indisa',
-        'Avda. Providencia 123',
-        '+56255454566',
-        '76123321k',
-        5,5
+        'Armando',
+        'Casas',
+        'Gran. Avenida 10555',
+        '56976897654',
+        'acasas@gmail.com',
+        5,
+        1
     );
 
-INSERT INTO
-    comuna (nombre_comuna, id_region, id_sucursal)
-VALUES
-    ('Las Condes', 1, 1),
-    ('Vitacura', 1, 2),
-    ('Recoleta', 1, 3),
-    ('La Florida', 1, 4),
-    ('Providencia', 1, 5);
+
 
 INSERT INTO
     cuenta (numero_cuenta, id_cl)
@@ -299,72 +369,9 @@ VALUES
     ('corriente', 30, 3500000, 4),
     ('corriente', 30, 7500000, 5);
 
-INSERT INTO
-    medico (nombre_med, apellido, direccion, telefono, correo,id_sucursal,id_especialidad)
-VALUES
-    (
-        'Manuel',
-        'Rodriguez',
-        'Consistorial 555',
-        '56945454567',
-        'mrodriguez@gmail.com',
-        1,5
-    ),
-    (
-        'Ma. Luisa',
-        'Cordero',
-        'Alameda 3332',
-        '56998674534',
-        'maluisacord@gmail.com',
-        2,4
-    ),
-    (
-        'Josefa',
-        'Perez',
-        'Calle larga 333',
-        '56932437687',
-        'jperez@gmail.com',
-        3,3
-    ),
-    (
-        'Patricio',
-        'Artaza',
-        'Matta 123',
-        '56943675489',
-        'partaza@gmail.com',
-        4,2
-    ),
-    (
-        'Armando',
-        'Casas',
-        'Gran. Avenida 10555',
-        '56976897654',
-        'acasas@gmail.com',
-        5,1
-    );
 
-INSERT INTO
-    especialidad (
-        nombre_especialidad,
-        id_sucursal,
-        id_med,
-        id_cliente
-    )
-VALUES
-    ('Oftalmologia', 2, 1, 5),
-    ('Medicina General', 1, 2, 4),
-    ('Ginecologia', 5, 3, 3),
-    ('Urologia', 4, 4, 2),
-    ('Psicologia', 3, 5, 1);
 
-INSERT INTO
-    prevision (nombre_prevision, id_cliente)
-VALUES
-    ('Fonasa', 1),
-    ('Cruz Blanca', 2),
-    ('Colmena', 3),
-    ('Banmedica', 4),
-    ('Consalud', 5);
+
 
 -- Después de haber creado la tabla Médico, agregar el campo sexo donde acepte valores F o M.
 ALTER TABLE medico
@@ -383,11 +390,6 @@ SET
     nombre_sucursal = 'Clinica Alemena'
 WHERE
     id_sucursal = 4;
-
- 
-
-
-
 
 CREATE VIEW
     vista_uno AS
