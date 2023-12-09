@@ -116,3 +116,81 @@ CREATE TABLE
         id_cliente int,
         FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente) on update cascade on delete cascade
     ) ENGINE = INNODB;
+
+-- •	Insertar 5 registros en cada tabla.
+INSERT INTO cliente (rut,nombre,apellido,direccion,telefono,correo,sexo  ) VALUES 
+('104255329','Marisa','Lopez','Vicuña Mackenna 6839','56977708923','marylo41@hotmail.com')
+;
+
+
+INSERT INTO
+    pais (nombre)
+VALUES
+    ('Chile'),
+    ('Argentina'),
+    ('Brasil'),
+    ('Ecuador'),
+    ('Uruguay');
+
+INSERT INTO
+    region (nombre_region, id_pais)
+VALUES
+    ('Metropolitana', 1),
+    ('Bariloche', 2),
+    ('De los Ríos', 1),
+    ('Brasilia', 3),
+    ('Coquimbo', 1);
+
+INSERT INTO
+    sucursal (
+        nombre_sucursal,
+        direccion,
+        telefono,
+        rut,
+        id_cliente
+    )
+VALUES
+    (
+        'Clinica Las Condes',
+        'Avda. Las condes 755',
+        '+56223344556',
+        '76123321k',
+        1
+    ),
+    (
+        'Clinica Alemana',
+        'Avda. Manquehue 1005',
+        '+56232334444',
+        '78654123k',
+        2
+    ),
+    (
+        'Clinica Davila',
+        'Avda. Recoleta 554',
+        '+56277665454',
+        '76123321k',
+        3
+    ),
+    (
+        'Clinica Bupa',
+        'Avda. Americo Vespucio 10755',
+        '+56298877676',
+        '76123321k',
+        4
+    ),
+    (
+        'Clinica Indisa',
+        'Avda. Providencia 123',
+        '+56255454566',
+        '76123321k',
+        5
+    );
+
+INSERT INTO
+    comuna (nombre_comuna, id_region, id_sucursal)
+VALUES
+    ('Las Condes', 1, 1),
+    ('Vitacura', 1, 2),
+    ('Recoleta', 1, 3),
+    ('La Florida', 1, 4),
+    ('Providencia', 1, 5);
