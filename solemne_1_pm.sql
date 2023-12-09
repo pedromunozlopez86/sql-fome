@@ -391,6 +391,11 @@ SET
 WHERE
     id_sucursal = 4;
 
+
+
+-- Crear vista para la siguiente consulta: nombre cliente, apellido cliente,
+--  nombre previsión, nombre sucursal, nombre médico, nombre especialidad, 
+-- nombre comuna. Utilice Join
 CREATE VIEW
     vista_uno AS
 SELECT
@@ -408,3 +413,35 @@ FROM
     JOIN medico m on m.id_sucursal = s.id_sucursal
     JOIN especialidad e on m.id_especialidad = e.id_especialidad
     JOIN comuna co on s.id_comuna = co.id_comuna;
+
+    -- ver vista 
+    select * from vista_uno;
+
+
+-- Crear vista para la siguiente consulta: nombre cliente, apellido cliente,
+--  tipo cuenta, saldo, nombre sucursal, nombre comuna, nombre región, de aquellos 
+--  clientes cuyo saldo de cuenta se encuentre entre 3000000 y 5890000, 
+--  agrupados por tipo de cuenta y ordenados en forma descendente. Use join
+
+CREATE VIEW vista_dos AS
+SELECT 
+c.nombre as nombre_cliente,
+c.apellido as apellido_cliente,
+tc.tipo as tipo_cuenta,
+tc.saldo as saldo,
+s.nombre_sucursal as nombre_sucursal,
+co.nombre_comuna as nombre_comuna,
+r.nombre_region as nombre_region
+FROM 
+    cliente c
+    LEFT JOIN cuenta cu ON c.id_cliente = cu.id_cl
+    LEFT JOIN tipo_cuenta tc ON cu.id_cuenta = tc.id_cuenta
+    LEFT JOIN sucursal s ON c.id_sucursal =s.id_sucursal
+    LEFT JOIN comuna co ON s.id_comuna = co.id_comuna
+    LEFT JOIN region r ON co.id_region = r.id_region
+
+    WHERE tc.saldo BETWEEN 3000000 and 5890000
+    ORDER BY tc.saldo DESC;
+
+       -- ver vista 
+    select * from vista_dos;
