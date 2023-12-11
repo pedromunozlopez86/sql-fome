@@ -1,5 +1,5 @@
 -- Iniciar en consola Mysql
-mysql - u peter - p / / peter es mi usuario -- # Creacion DB
+mysql -u peter -p / / peter es mi usuario -- # Creacion DB
 create database solemne1_pm;
 
 --  Seleccion DB
